@@ -17,7 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 @org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor(onConstructor = @_(@Autowired))
 @RequestMapping(value = "/api",produces = {APPLICATION_JSON_UTF8_VALUE})
-
+@CrossOrigin
 public class RestController {
     @Autowired
     PetService petService;
