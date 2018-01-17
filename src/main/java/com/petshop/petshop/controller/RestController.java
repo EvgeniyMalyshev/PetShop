@@ -46,8 +46,8 @@ public class RestController {
 
     }
 
-    @PutMapping("")
-    public ResponseEntity updatePet (@RequestBody Pet pet){
+    @PutMapping("/{id}")
+    public ResponseEntity updatePet (@PathVariable int id, @RequestBody Pet pet){
         //return ResponseEntity.status(HttpStatus.OK).body(petService.updatePet(pet));
         petService.savePet(pet);
         return ResponseEntity.status(HttpStatus.OK).body("ok");
