@@ -48,9 +48,14 @@ public class RestController {
 
     @PutMapping("/{id}")
     public ResponseEntity updatePet (@PathVariable int id, @RequestBody Pet pet){
-        //return ResponseEntity.status(HttpStatus.OK).body(petService.updatePet(pet));
-        petService.savePet(pet);
-        return ResponseEntity.status(HttpStatus.OK).body("ok");
+        if(pet.getId()>0){
+            petService.savePet(pet);
+            return ResponseEntity.status(HttpStatus.OK).body(pet);
+        }
+        else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 
