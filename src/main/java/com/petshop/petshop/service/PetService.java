@@ -18,8 +18,8 @@ public class PetService {
       return repository.findOne(1);
 
     }
-    public void  savePet(Pet pet){
-    repository.save(pet);
+    public Pet  savePet(Pet pet){
+    return repository.save(pet);
 
     }
 

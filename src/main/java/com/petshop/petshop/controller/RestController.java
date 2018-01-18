@@ -35,8 +35,8 @@ public class RestController {
 
     @PostMapping("")
     public ResponseEntity createPet(@RequestBody Pet pet){
-        petService.savePet(pet);
-        return ResponseEntity.status(HttpStatus.CREATED).body("created");
+        Pet petSave = petService.savePet(pet);
+        return ResponseEntity.status(HttpStatus.CREATED).body(petSave);
     }
 
     @DeleteMapping("/{id}")
