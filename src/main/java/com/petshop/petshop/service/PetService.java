@@ -27,8 +27,10 @@ public class PetService {
         return (List<Pet>) repository.findAll();
     }
 
-public void deletePet(int id){
-        repository.delete(id);
+public Pet deletePet(int id){
+        Pet pet = repository.findOne(id);
+        repository.delete(pet.getId());
+        return pet;
 }
 
 public Pet getPetbyId(int id){

@@ -41,21 +41,25 @@ public class RestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deletePet (@PathVariable int id){
-        petService.deletePet(id);
-        return  ResponseEntity.status(HttpStatus.OK).body("deleted");
-
+        if(petService.getPetbyId(id)!=null) {
+            Pet deletePetpet = petService.deletePet(id);
+            return ResponseEntity.status(HttpStatus.OK).body(deletePetpet);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity updatePet (@PathVariable int id, @RequestBody Pet pet){
-        if(pet.getId()>0){
-            petService.savePet(pet);
-            return ResponseEntity.status(HttpStatus.OK).body(pet);
+        Pet updatePet = petService.getPetbyId(id);
+        if(updatePet == null) {
+            return ResponseEntity.notFound().build();
         }
-        else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
+        updatePet.setAge(pet.getAge());
+        updatePet.setName(pet.getName());
+        petService.updatePet(updatePet);
+        return ResponseEntity.ok(updatePet);
     }
 
 
