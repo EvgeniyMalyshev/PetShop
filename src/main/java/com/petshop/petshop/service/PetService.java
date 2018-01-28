@@ -41,8 +41,6 @@ public Pet updatePet(Pet pet){
     Pet petUpdated = repository.findOne(pet.getId());
     pet.setName(pet.getName() == null?petUpdated.getName():pet.getName());
     pet.setAge(pet.getAge() == 0?petUpdated.getAge():pet.getAge());
-//    petUpdated.setAge(pet.getAge());
-//    petUpdated.setName(pet.getName());
         return repository.save(pet);
 }
 

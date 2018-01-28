@@ -17,32 +17,52 @@ public class MainController {
     @Autowired
     PetService petService;
 
-//    @GetMapping("/")
-//    public String main(Model model){
-//        Pet pet = petService.getPet();
-//        model.addAttribute("petObject", "new Pet()");
-//        model.addAttribute("pet", petService.getPet());
-//        System.out.println(petService.getPet());
-//        return "index";
-//    }
+    @GetMapping("/")
+    public String home1() {
+        return "/home";
+    }
+
+    @GetMapping("/home")
+    public String home() {
+        return "/home";
+    }
+
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("pet", new Pet());
+        model.addAttribute("petList", petService.petList());
+        return "/admin";
+    }
+
+
+    @GetMapping("/login")
+    public String login() {
+        return "/login";
+    }
+
+    @GetMapping("/403")
+    public String error403() {
+        return "/error/403";
+    }
+
 
     @PostMapping("/add")
     public String save(@ModelAttribute("pet") Pet pet, Model model){
         petService.savePet(pet);
-        return "redirect:/";
+        return "redirect:/admin";
     }
-
-    @GetMapping("/")
-    public String list(Model model){
-       model.addAttribute("pet", new Pet());
-       model.addAttribute("petList", petService.petList());
-       return "index";
-    }
+//  here we MUST do something!!!!!
+//    @GetMapping("/")
+//    public String list(Model model){
+//       model.addAttribute("pet", new Pet());
+//       model.addAttribute("petList", petService.petList());
+//       return "index";
+//    }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable int id){
         petService.deletePet(id);
-       return "redirect:/";
+       return "redirect:/admin";
     }
 
     @GetMapping("/update/{id}")

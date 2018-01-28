@@ -1,9 +1,14 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <!--<div th:replace="fragments/header :: header-css"/>-->
 </head>
 <body>
+
+<!--<div th:replace="fragments/header :: header"/>-->
+
+
 
 <form action="#" th:action="@{/add}" th:object="${pet}" method="post">
     <p>Name: <input type="text" th:field="*{name}" /></p>
@@ -21,7 +26,6 @@
     </tr>
     </tbody>
 </table>
-
-
+<!--<div th:replace="fragments/footer :: footer"/>-->
 </body>
 </html>
