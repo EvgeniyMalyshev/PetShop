@@ -34,7 +34,6 @@ public class MainController {
         return "/admin";
     }
 
-
     @GetMapping("/login")
     public String login() {
         return "/login";
@@ -51,13 +50,6 @@ public class MainController {
         petService.savePet(pet);
         return "redirect:/admin";
     }
-//  here we MUST do something!!!!!
-//    @GetMapping("/")
-//    public String list(Model model){
-//       model.addAttribute("pet", new Pet());
-//       model.addAttribute("petList", petService.petList());
-//       return "index";
-//    }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable int id){

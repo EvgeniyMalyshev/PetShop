@@ -3,9 +3,12 @@ package com.petshop.petshop.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -15,6 +18,8 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 // Switch off the Spring Boot security configuration
 //@EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static String REALM="Hello";
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
@@ -35,20 +40,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/", "/home", "/registration").permitAll()
-                .antMatchers("/admin/**")
 
-                .authenticated()
-                //.access("hasRole('role_ADMIN')")
+                .authorizeRequests().antMatchers(  "/registration", "/api").permitAll()
+                //.antMatchers("/admin/**")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
+//                .httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
+//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+                //.hasAuthority("ADMIN")
+                //.and()
+                .formLogin().loginPage("/login").permitAll()
                 .and()
-                .logout()
-                .permitAll()
+                .logout().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
@@ -57,8 +61,21 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
-//        auth.inMemoryAuthentication()
-//                .withUser("admin").password("admin").roles("ADMIN");
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
+
+    @Bean
+    public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint(){
+        return new CustomBasicAuthenticationEntryPoint();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 
 
